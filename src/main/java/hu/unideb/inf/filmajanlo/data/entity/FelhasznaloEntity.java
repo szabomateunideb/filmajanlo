@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -34,4 +35,7 @@ public class FelhasznaloEntity {
     private String nem;
     @Column(name = "country_code")
     private String orszag;
+
+    @OneToMany(mappedBy = "felhasznalo")
+    private List<MegnezendoListaEntity> listak;
 }
