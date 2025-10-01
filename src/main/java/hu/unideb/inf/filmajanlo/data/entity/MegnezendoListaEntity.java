@@ -27,13 +27,13 @@ public class MegnezendoListaEntity {
     private Date letrehozasDatuma;
 
     @ManyToOne
-    @JoinColumn(name = "felhasznalo_id")
+    @JoinColumn(name = "user_id")
     private FelhasznaloEntity felhasznalo;
 
     @ManyToMany
     @JoinTable(
-            joinColumns = @JoinColumn(name = "lista_id"),
-            inverseJoinColumns = @JoinColumn(name = "film_id")
+            joinColumns = @JoinColumn(name = "watchlist_id"),
+            inverseJoinColumns = @JoinColumn(name = "movie_id")
     )
     private List<FilmEntity> filmek;
 }
