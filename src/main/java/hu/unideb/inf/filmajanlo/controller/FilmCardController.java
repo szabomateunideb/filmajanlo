@@ -22,4 +22,9 @@ public class FilmCardController {
     public FilmCardDto getById(@RequestParam Long id){
         return filmCardService.findById(id);
     }
+
+    @GetMapping("/byCim/{cim}")
+    public FilmCardDto getByCim(@PathVariable  String cim){
+        return filmCardService.findByCim(cim);
+    }
 }
