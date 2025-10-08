@@ -23,7 +23,10 @@ public class FilmCardServiceImpl
 
     @Override
     public FilmCardDto findById(Long id) {
-        return null;
+        FilmEntity filmEntity = repo.getReferenceById(id);
+        FilmCardDto filmCardDto = mapper
+                .map(filmEntity, FilmCardDto.class);
+        return filmCardDto;
     }
 
     @Override

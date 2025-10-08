@@ -2,10 +2,7 @@ package hu.unideb.inf.filmajanlo.controller;
 
 import hu.unideb.inf.filmajanlo.service.FilmCardService;
 import hu.unideb.inf.filmajanlo.service.dto.FilmCardDto;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/film")
@@ -19,5 +16,10 @@ public class FilmCardController {
     @PostMapping("/save")
     public FilmCardDto save(@RequestBody FilmCardDto dto){
         return filmCardService.save(dto);
+    }
+
+    @GetMapping("/byId")
+    public FilmCardDto getById(@RequestParam Long id){
+        return filmCardService.findById(id);
     }
 }

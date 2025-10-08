@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FilmRepository
         extends JpaRepository<FilmEntity, Long> {
+
+    FilmEntity getByCim(String cim);
 }
