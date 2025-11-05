@@ -8,27 +8,30 @@ import hu.unideb.inf.filmajanlo.service.AuthenticationService;
 import hu.unideb.inf.filmajanlo.service.dto.BejelentkezesDto;
 import hu.unideb.inf.filmajanlo.service.dto.RegisztracioDto;
 import hu.unideb.inf.filmajanlo.service.mapper.FelhasznaloMapper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class AuthenticationServiceImpl
         implements AuthenticationService {
 
     private final FelhasznaloRepository felhRepo;
     private final JogosultsagRepository jogRepo;
-    private final FelhasznaloMapper felhMapper;
     private final FelhasznaloMapper felhasznaloMapper;
-
-    public AuthenticationServiceImpl(FelhasznaloRepository felhRepo, JogosultsagRepository jogRepo, FelhasznaloMapper felhMapper, FelhasznaloMapper felhasznaloMapper) {
-        this.felhRepo = felhRepo;
-        this.jogRepo = jogRepo;
-        this.felhMapper = felhMapper;
-        this.felhasznaloMapper = felhasznaloMapper;
-    }
+    private final AuthenticationManager authManager;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void regisztracio(RegisztracioDto dto) {
         FelhasznaloEntity e = felhasznaloMapper.regisztracioToEntity(dto);
+        e.setJelszo(passwordEncoder.encode(e.getJelszo()));
         JogosultsagEntity jog = jogRepo.findByNev("FELHASZNALO");
         if(jog != null){
             e.setJogosultsag(jog);
@@ -44,6 +47,17 @@ public class AuthenticationServiceImpl
 
     @Override
     public void bejelentkezes(BejelentkezesDto dto) {
+        SecurityContext context =
+                SecurityContextHolder.createEmptyContext();
+
+        Authentication auth = authManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        dto.getFelhasznalonev(),
+                        dto.getJelszo()
+                )
+        );
+        context.setAuthentication(auth);
+        SecurityContextHolder.setContext(context);
 
     }
 }

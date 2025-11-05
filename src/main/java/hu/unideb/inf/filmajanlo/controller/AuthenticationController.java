@@ -1,6 +1,7 @@
 package hu.unideb.inf.filmajanlo.controller;
 
 import hu.unideb.inf.filmajanlo.service.AuthenticationService;
+import hu.unideb.inf.filmajanlo.service.dto.BejelentkezesDto;
 import hu.unideb.inf.filmajanlo.service.dto.RegisztracioDto;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,5 +21,10 @@ public class AuthenticationController {
     @PostMapping("/regisztracio")
     public void regisztracio(@RequestBody RegisztracioDto dto){
         authService.regisztracio(dto);
+    }
+
+    @PostMapping("/bejelentkezes")
+    public void bejelentkezes(@RequestBody BejelentkezesDto dto){
+        authService.bejelentkezes(dto);
     }
 }
