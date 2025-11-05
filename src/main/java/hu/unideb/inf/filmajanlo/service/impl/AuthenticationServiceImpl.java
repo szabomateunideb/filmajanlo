@@ -5,6 +5,7 @@ import hu.unideb.inf.filmajanlo.data.entity.JogosultsagEntity;
 import hu.unideb.inf.filmajanlo.data.repository.FelhasznaloRepository;
 import hu.unideb.inf.filmajanlo.data.repository.JogosultsagRepository;
 import hu.unideb.inf.filmajanlo.service.AuthenticationService;
+import hu.unideb.inf.filmajanlo.service.TokenService;
 import hu.unideb.inf.filmajanlo.service.dto.BejelentkezesDto;
 import hu.unideb.inf.filmajanlo.service.dto.RegisztracioDto;
 import hu.unideb.inf.filmajanlo.service.mapper.FelhasznaloMapper;
@@ -27,16 +28,17 @@ public class AuthenticationServiceImpl
     private final FelhasznaloMapper felhasznaloMapper;
     private final AuthenticationManager authManager;
     private final PasswordEncoder passwordEncoder;
+    private final TokenService tokenService;
 
     @Override
     public void regisztracio(RegisztracioDto dto) {
         FelhasznaloEntity e = felhasznaloMapper.regisztracioToEntity(dto);
         e.setJelszo(passwordEncoder.encode(e.getJelszo()));
         JogosultsagEntity jog = jogRepo.findByNev("FELHASZNALO");
-        if(jog != null){
+        if (jog != null) {
             e.setJogosultsag(jog);
         } else {
-            jog =  new JogosultsagEntity();
+            jog = new JogosultsagEntity();
             jog.setNev("FELHASZNALO");
             jog = jogRepo.save(jog);
 
@@ -46,7 +48,7 @@ public class AuthenticationServiceImpl
     }
 
     @Override
-    public void bejelentkezes(BejelentkezesDto dto) {
+    public String bejelentkezes(BejelentkezesDto dto) {
         SecurityContext context =
                 SecurityContextHolder.createEmptyContext();
 
@@ -58,6 +60,7 @@ public class AuthenticationServiceImpl
         );
         context.setAuthentication(auth);
         SecurityContextHolder.setContext(context);
-
+        var user = felhRepo.findByFelhasznalonev(dto.getFelhasznalonev());
+        return tokenService.generateToken(user);
     }
 }
