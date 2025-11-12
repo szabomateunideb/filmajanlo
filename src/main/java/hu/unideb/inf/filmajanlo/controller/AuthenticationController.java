@@ -3,10 +3,8 @@ package hu.unideb.inf.filmajanlo.controller;
 import hu.unideb.inf.filmajanlo.service.AuthenticationService;
 import hu.unideb.inf.filmajanlo.service.dto.BejelentkezesDto;
 import hu.unideb.inf.filmajanlo.service.dto.RegisztracioDto;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("auth")
@@ -16,6 +14,11 @@ public class AuthenticationController {
 
     public AuthenticationController(AuthenticationService authService) {
         this.authService = authService;
+    }
+
+    @RequestMapping(value = "/**", method = RequestMethod.OPTIONS)
+    public ResponseEntity<Void> options() {
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/regisztracio")
