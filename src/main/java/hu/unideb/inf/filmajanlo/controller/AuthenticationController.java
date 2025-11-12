@@ -3,11 +3,14 @@ package hu.unideb.inf.filmajanlo.controller;
 import hu.unideb.inf.filmajanlo.service.AuthenticationService;
 import hu.unideb.inf.filmajanlo.service.dto.BejelentkezesDto;
 import hu.unideb.inf.filmajanlo.service.dto.RegisztracioDto;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("auth")
+@Validated
 public class AuthenticationController {
 
     private final AuthenticationService authService;
@@ -22,7 +25,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/regisztracio")
-    public void regisztracio(@RequestBody RegisztracioDto dto){
+    public void regisztracio(@RequestBody @Valid RegisztracioDto dto){
         authService.regisztracio(dto);
     }
 

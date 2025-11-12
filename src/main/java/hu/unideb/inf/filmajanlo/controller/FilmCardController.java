@@ -2,11 +2,14 @@ package hu.unideb.inf.filmajanlo.controller;
 
 import hu.unideb.inf.filmajanlo.service.FilmCardService;
 import hu.unideb.inf.filmajanlo.service.dto.FilmCardDto;
+import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/film")
+@Validated
 public class FilmCardController {
 
     final FilmCardService filmCardService;
@@ -16,7 +19,7 @@ public class FilmCardController {
 
     @PostMapping("/save")
     @PreAuthorize("hasAnyAuthority('FELHASZNALO','ADMIN')")
-    public FilmCardDto save(@RequestBody FilmCardDto dto){
+    public FilmCardDto save(@RequestBody @Valid FilmCardDto dto){
         //System.out.println("Film mentése "+ dto.getCim());
         return filmCardService.save(dto);
     }
