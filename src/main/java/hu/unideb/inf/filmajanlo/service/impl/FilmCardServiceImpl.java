@@ -72,4 +72,19 @@ public class FilmCardServiceImpl
 
         return filmCardDto;
     }
+
+    @Override
+    public List<FilmCardDto> saveAll(List<FilmCardDto> filmCardDtos) {
+        Type listTypeEntity =
+                new TypeToken<List<FilmEntity>>(){}.getType();
+        List<FilmEntity> filmEntities =
+                modelMapper.map(filmCardDtos, listTypeEntity);
+
+        filmEntities = repo.saveAll(filmEntities);
+
+
+        Type listType =
+                new TypeToken<List<FilmCardDto>>(){}.getType();
+        return modelMapper.map(filmEntities, listType);
+    }
 }

@@ -11,5 +11,6 @@ public interface FilmCardService {
     List<FilmCardDto> findAll();
     void deleteById(Long id);
     FilmCardDto save(FilmCardDto filmCardDto);
+    List<FilmCardDto> saveAll(List<FilmCardDto> filmCardDtos);
 
 }

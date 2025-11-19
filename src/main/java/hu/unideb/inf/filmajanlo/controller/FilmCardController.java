@@ -7,6 +7,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/film")
 @Validated
@@ -33,5 +35,10 @@ public class FilmCardController {
     @GetMapping("/byCim/{cim}")
     public FilmCardDto getByCim(@PathVariable  String cim){
         return filmCardService.findByCim(cim);
+    }
+
+    @PostMapping("/saveall")
+    public List<FilmCardDto> saveAll(@RequestBody List<FilmCardDto> dto){
+        return filmCardService.saveAll(dto);
     }
 }
