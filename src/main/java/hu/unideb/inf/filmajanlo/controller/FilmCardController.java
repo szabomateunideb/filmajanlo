@@ -19,6 +19,11 @@ public class FilmCardController {
         this.filmCardService = filmCardService;
     }
 
+    @GetMapping("/findall")
+    public List<FilmCardDto> getFilmCards() {
+        return filmCardService.findAll();
+    }
+
     @PostMapping("/save")
     @PreAuthorize("hasAnyAuthority('FELHASZNALO','ADMIN')")
     public FilmCardDto save(@RequestBody @Valid FilmCardDto dto){
